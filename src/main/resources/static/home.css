@@ -19,7 +19,7 @@ input {
     display: grid;
     grid-template-columns: 100px 1fr;
 }
-.task_form input[type="dead"], select {
+.task_form input[type="date"], select {
     width: 150px;
 }
 

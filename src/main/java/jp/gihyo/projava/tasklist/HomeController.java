@@ -25,26 +25,32 @@ public class HomeController {
         this.dao = dao;
     }
 
+    @GetMapping("/list")
+    String listItems(Model model) {
+        List<TaskItem> taskItems = dao.findAll();
+        model.addAttribute("taskList", taskItems);
+        return "home";
+    }
+
     @GetMapping("/add")
     String addItem(@RequestParam("task") String task,
                    @RequestParam("deadline") String deadline) {
         String id = UUID.randomUUID().toString().substring(0, 8);
         TaskItem item = new TaskItem(id, task, deadline, false);
-//        dao.add(item);
+        dao.add(item);
         taskItems.add(item);
         return "redirect:/list";
-    }
-
-    @GetMapping("/list")
-    String listItems(Model model) {
-//        List<TaskItem> taskItems = dao.findAll();
-        model.addAttribute("tasklist", taskItems);
-        return "home";
     }
 
     @RequestMapping(value="/hello")
     String hello(Model model) {
         model.addAttribute("time", LocalDateTime.now());
         return "hello";
+    }
+
+    @GetMapping("/delete")
+    String deleteItem(@RequestParam("id") String id) {
+        dao.delete(id);
+        return "redirect:/list";
     }
 }
